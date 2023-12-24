@@ -5,6 +5,7 @@ public class Car {
     private String color;
     private String model;
     private String size;
+    public String location;
 
     public Car(String lisenseNum, String color, String model, String size){
         this.lisenseNum = lisenseNum;

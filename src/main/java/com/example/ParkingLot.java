@@ -1,26 +1,53 @@
 package com.example;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ParkingLot {
+    private int capacity;//100
+    private List<Car> parkedCars;
+    private String location;
 
-    private int MAX_CAPACITY =100;
-    private int spaceOccupied; 
-
-    public ParkingLot(int MAX_CAPACITY){
-        this.MAX_CAPACITY=MAX_CAPACITY;
-        this.spaceOccupied = 0;
-    }
-
-    public boolean parkCar(){
-        if(spaceOccupied < MAX_CAPACITY){
-            spaceOccupied++;
-            return true;
-        }else{
-            return false;
-        }
+    public ParkingLot(int capacity,String location) {
+        this.capacity = capacity;
+        this.parkedCars = new ArrayList<>();
+        this.location = location;
     }
 
     public boolean isFull() {
-        return spaceOccupied >= MAX_CAPACITY;
+        return parkedCars.size() == capacity;
     }
-   
+
+    public boolean parkCar(Car car) {
+        if (!isFull()) {
+            parkedCars.add(car);
+            car.location = this.location;
+            capacity--;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean unparkCar(Car car) {
+        parkedCars.remove(car);
+        capacity++;
+        return true;
+    }
+
+    public int getAvailableSpaces() {
+        return capacity - parkedCars.size();
+    }
+
+    public int getCapacity(){
+        return capacity;
+    }
+
+    public List<Car> getParkedCar(){
+        return parkedCars;
+    }
+
+    public String getLocation(){
+        return location;
+    }
+    
 }
