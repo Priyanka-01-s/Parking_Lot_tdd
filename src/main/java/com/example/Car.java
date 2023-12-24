@@ -30,4 +30,8 @@ public class Car {
         return size;
     }    
 
+    public String getLocation(){
+        return location;
+    }
+
 }

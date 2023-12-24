@@ -26,16 +26,20 @@ public class ParkingAttendent {
         for (int i=0;i < parkingLotList.size();i++){
             if (parkingLotList.get(i).parkCar(car)){
                 location = this.parkingLotList.get(i).getLocation();
+                System.out.println("Car is parked at "+location+" spot");
                 return true;
             }
-            System.out.println("Car is parked at "+location+" spot");
         }
         return false;
     }
 
     public boolean unParkCar(Car car){
+        if (car == null) {
+            return false;
+        }
         for(ParkingLot lot:parkingLotList){
             if(lot.getLocation().equals(car.location)){
+                System.out.println("Car unparked from "+car.location);
                 return lot.unparkCar(car);
             }
         }

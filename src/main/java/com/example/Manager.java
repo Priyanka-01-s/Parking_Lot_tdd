@@ -15,13 +15,27 @@ public class Manager {
         carDrivers.add(drivers);
     }
 
-    public boolean parkCarByDriver(String name, Car car){
-        for(ParkingAttendent parkingAttendent : carDrivers){
-            if (parkingAttendent.getName().equals(name)){
-                return parkingAttendent.FindSpaceAndPark(car);
+    public boolean parkCarByDriver(String name, Car car) {
+        if (car == null) {
+            return false;
+        }
+        for (ParkingAttendent parkingAttendant : carDrivers) {
+            if (parkingAttendant.getName().equals(name)) {
+                return parkingAttendant.FindSpaceAndPark(car);
             }
         }
-        return false;
+        return true;
     }
-    
+
+    public boolean unparkCarByDriver(String name, Car car) {
+        if (car == null) {
+            return false;
+        }
+        for (ParkingAttendent parkingAttendant : carDrivers) {
+            if (parkingAttendant.getName().equals(name)) {
+                return parkingAttendant.unParkCar(car);
+            }
+        }
+        return true;
+    }    
 }

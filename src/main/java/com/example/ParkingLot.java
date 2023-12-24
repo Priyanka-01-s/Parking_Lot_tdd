@@ -1,6 +1,7 @@
 package com.example;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ParkingLot {
@@ -34,19 +35,19 @@ public class ParkingLot {
         return true;
     }
 
-    public int getAvailableSpaces() {
-        return capacity - parkedCars.size();
-    }
-
-    public int getCapacity(){
+     public int getAvailableSpaces() {
         return capacity;
     }
 
-    public List<Car> getParkedCar(){
+    public int getCapacity() {
+        return capacity + parkedCars.size();
+    }
+
+    public List<Car> getParkedCars() {
         return parkedCars;
     }
 
-    public String getLocation(){
+    public String getLocation() {
         return location;
     }
     
