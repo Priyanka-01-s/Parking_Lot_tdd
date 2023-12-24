@@ -18,6 +18,8 @@ public class ParkingLotTest {
     private ParkingAttendent driver2;
     private Manager manager1;
     private Manager manager2;
+    private ParkingLotOwner owner;
+    private SecurityStaff staff;
 
     @BeforeEach
     public void setUpBeforeEach() {
@@ -33,6 +35,8 @@ public class ParkingLotTest {
         driver2.addParkingLot(parkingLot2);
         manager1.addDrivers(driver1);
         manager2.addDrivers(driver2);
+        owner = new ParkingLotOwner();
+        staff = new SecurityStaff("Max");
     
     }
 
@@ -69,14 +73,25 @@ public class ParkingLotTest {
     //notify when parking lot is full to the owner
     @Test
     public void testNotifyWhenFull(){
-        ParkingLotOwner owner = new ParkingLotOwner();
         parkingLot2.setOwner(owner); 
 
         assertTrue(parkingLot2.parkCar(car2));
-        assertFalse(owner.isLotFull());
-
+        assertTrue(owner.isLotFull());
     }
 
-  
+    //test to redirect security staff when lot is full
+    @Test
+    public void testSecurityWhenFull(){
+        owner.addStaff(staff);
+        parkingLot2.setOwner(owner);
+
+        assertTrue(parkingLot2.parkCar(car2));
+        assertTrue(owner.isLotFull());
+        
+        //notify the airport staff
+        staff.notifyLotFull();
+
+    }
+ 
 
 }
