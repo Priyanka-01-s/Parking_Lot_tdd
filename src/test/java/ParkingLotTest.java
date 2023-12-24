@@ -33,8 +33,10 @@ public class ParkingLotTest {
         driver2.addParkingLot(parkingLot2);
         manager1.addDrivers(driver1);
         manager2.addDrivers(driver2);
+    
     }
 
+    //test for car parking
     @Test
     public void testCarParking() {
         //test parking car1
@@ -52,6 +54,7 @@ public class ParkingLotTest {
         assertEquals("XY", car2.getLocation()); 
     }
 
+    //Test for car unparking
     @Test
     public void testCarUnparking(){
         manager2.parkCarByDriver("John", car2);
@@ -61,6 +64,17 @@ public class ParkingLotTest {
         assertTrue(isUnparkedCar2);
         assertEquals(1, parkingLot2.getAvailableSpaces()); //parking space increased
         assertFalse(parkingLot2.getParkedCars().contains(car2));
+    }
+
+    //notify when parking lot is full to the owner
+    @Test
+    public void testNotifyWhenFull(){
+        ParkingLotOwner owner = new ParkingLotOwner();
+        parkingLot2.setOwner(owner); 
+
+        assertTrue(parkingLot2.parkCar(car2));
+        assertFalse(owner.isLotFull());
+
     }
 
   

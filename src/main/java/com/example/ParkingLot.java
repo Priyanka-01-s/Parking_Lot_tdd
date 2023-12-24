@@ -1,20 +1,25 @@
 package com.example;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ParkingLot {
     private int capacity;//100
     private List<Car> parkedCars;
     private String location;
+    private ParkingLotOwner owner;
 
     public ParkingLot(int capacity,String location) {
         this.capacity = capacity;
         this.parkedCars = new ArrayList<>();
         this.location = location;
+        this.owner = null;
     }
 
+    public void setOwner(ParkingLotOwner owner) {
+        this.owner = owner;
+    }
+    
     public boolean isFull() {
         return parkedCars.size() == capacity;
     }
