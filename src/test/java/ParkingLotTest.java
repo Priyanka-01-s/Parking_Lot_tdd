@@ -27,10 +27,10 @@ public class ParkingLotTest {
     public void setUpBeforeEach() {
         car1 = new Car("UP1234", "Mahindra", "Black", "SUV");
         car2 = new Car("MP1234", "Toyota", "Blue", "Compact");
-        car3 = new Car("MH0102","White","BMW","Sedan");
+        car3 = new Car("MH0102", "White", "BMW", "Sedan");
         parkingLot1 = new ParkingLot(MAX_CAPACITY, "AB");
         parkingLot2 = new ParkingLot(1, "XY");
-        parkingLot3 = new ParkingLot(3,"CD");
+        parkingLot3 = new ParkingLot(3, "CD");
         driver1 = new ParkingAttendent("Alex");
         driver2 = new ParkingAttendent("John");
         manager1 = new Manager();
@@ -41,65 +41,64 @@ public class ParkingLotTest {
         manager2.addDrivers(driver2);
         owner = new ParkingLotOwner();
         staff = new SecurityStaff("Max");
-    
+
     }
 
-    //test for car parking
+    // test for car parking
     @Test
     public void testCarParking() {
-        //test parking car1
+        // test parking car1
         boolean isParkedCar1 = manager1.parkCarByDriver("Alex", car1);
         assertTrue(isParkedCar1);
         assertEquals(99, parkingLot1.getAvailableSpaces());
         assertTrue(parkingLot1.getParkedCars().contains(car1));
         assertEquals("AB", car1.getLocation());
 
-        //test parking car2
+        // test parking car2
         boolean isParkedCar2 = manager2.parkCarByDriver("John", car2);
         assertTrue(isParkedCar2);
         assertEquals(0, parkingLot2.getAvailableSpaces());
         assertTrue(parkingLot2.getParkedCars().contains(car2));
-        assertEquals("XY", car2.getLocation()); 
+        assertEquals("XY", car2.getLocation());
     }
 
-    //Test for car unparking
+    // Test for car unparking
     @Test
-    public void testCarUnparking(){
+    public void testCarUnparking() {
         manager2.parkCarByDriver("John", car2);
-        assertTrue(parkingLot2.getParkedCars().contains(car2));//yes
+        assertTrue(parkingLot2.getParkedCars().contains(car2));// yes
 
         boolean isUnparkedCar2 = manager2.unparkCarByDriver("John", car2);
         assertTrue(isUnparkedCar2);
-        assertEquals(1, parkingLot2.getAvailableSpaces()); //parking space increased
+        assertEquals(1, parkingLot2.getAvailableSpaces()); // parking space increased
         assertFalse(parkingLot2.getParkedCars().contains(car2));
     }
 
-    //notify when parking lot is full to the owner
+    // notify when parking lot is full to the owner
     @Test
-    public void testNotifyWhenFull(){
-        parkingLot2.setOwner(owner); 
+    public void testNotifyWhenFull() {
+        parkingLot2.setOwner(owner);
 
         assertTrue(parkingLot2.parkCar(car2));
         assertTrue(owner.setLotFull());
     }
 
-    //test to redirect security staff when lot is full
+    // test to redirect security staff when lot is full
     @Test
-    public void testSecurityWhenFull(){
+    public void testSecurityWhenFull() {
         owner.addStaff(staff);
         parkingLot2.setOwner(owner);
 
         assertTrue(parkingLot2.parkCar(car2));
         assertTrue(owner.setLotFull());
-        
-        //notify the airport staff
+        // notify the airport staff
         staff.notifyLotFull();
 
     }
- 
-    //test for notifying when the lot has space again
+
+    // test for notifying when the lot has space again
     @Test
-    public void testNotifyWhenSpaceAvailable(){
+    public void testNotifyWhenSpaceAvailable() {
         assertTrue(parkingLot3.parkCar(car1));
         assertTrue(parkingLot3.parkCar(car2));
         assertTrue(parkingLot3.parkCar(car3));
@@ -111,8 +110,20 @@ public class ParkingLotTest {
 
         assertFalse(parkingLot3.checkLotFull());
         staff.notifyLotNotFull();
+    }
 
+    //Test where to park the car by a attendant
+    @Test
+    public void testOwnerDecidesParking() {
+        parkingLot1.setOwner(owner);
+        driver1.addParkingLot(parkingLot1);
+        boolean isParkedCar1 = manager1.parkCarByDriver("Alex", car1);
 
+        assertTrue(isParkedCar1);
+        assertEquals(99, parkingLot1.getAvailableSpaces());
+        assertTrue(parkingLot1.getParkedCars().contains(car1));
+        assertEquals("AB", car1.getLocation());
+        assertTrue(owner.setLotFull());
     }
 
 }
