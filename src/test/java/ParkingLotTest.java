@@ -14,6 +14,9 @@ public class ParkingLotTest {
     private Car car1;
     private Car car2;
     private Car car3;
+    private Car car4;
+    private Car car5;
+    private Car car6;
     private ParkingLot parkingLot1;
     private ParkingLot parkingLot2;
     private ParkingLot parkingLot3;
@@ -29,6 +32,9 @@ public class ParkingLotTest {
         car1 = new Car("UP1234", "Mahindra", "Black", "SUV");
         car2 = new Car("MP1234", "Toyota", "Blue", "Compact");
         car3 = new Car("MH0102", "White", "BMW", "Sedan");
+        car4 = new Car("KA5678", "Ford", "Red", "Sedan");
+        car5 = new Car("TN9876", "Honda", "Green", "Compact");
+        car6 = new Car("DL5432", "Chevrolet", "Silver", "SUV");
         parkingLot1 = new ParkingLot(MAX_CAPACITY, "AB");
         parkingLot2 = new ParkingLot(1, "XY");
         parkingLot3 = new ParkingLot(3, "CD");
@@ -127,7 +133,7 @@ public class ParkingLotTest {
         assertTrue(owner.setLotFull());
     }
 
-    //test driver to find the car in parking lot
+    // test driver to find the car in parking lot
     @Test
     public void testDriverFindsCar() {
         driver1.addParkingLot(parkingLot1);
@@ -143,14 +149,39 @@ public class ParkingLotTest {
         parkingLot1.setOwner(owner);
         driver1.addParkingLot(parkingLot1);
         boolean isParkedCar1 = manager1.parkCarByDriver("Alex", car1);
-        
+
         assertTrue(isParkedCar1);
         assertEquals(99, parkingLot1.getAvailableSpaces());
         assertTrue(parkingLot1.getParkedCars().contains(car1));
         assertEquals("AB", car1.getLocation());
-
-        //owner can retrieve the timestamp for the parked car
+        // owner can retrieve the timestamp for the parked car
         assertNotNull(parkingLot1.getParkingTimestamp(car1));
+    }
+
+    //test cars parked in parking lot are even 
+    @Test
+    public void testEvenDistributionOfCars() {
+        parkingLot1.setOwner(owner);
+        parkingLot2.setOwner(owner);
+
+        driver1.addParkingLot(parkingLot1);
+        driver1.addParkingLot(parkingLot2);
+
+        manager1.parkCarByDriver("Alex", car1);
+        manager1.parkCarByDriver("Alex", car2);
+        manager1.parkCarByDriver("Alex", car3);
+        manager2.parkCarByDriver("John", car4);
+        manager2.parkCarByDriver("John", car5);
+        manager2.parkCarByDriver("John", car6);
+
+        int expectedAverageCarsPerLot = 3;
+        int actualCarsInLot1 = parkingLot1.getParkedCars().size();
+        int actualCarsInLot2 = parkingLot2.getParkedCars().size();
+
+        System.out.println("Actual Cars in Lot 1: " + actualCarsInLot1);
+        System.out.println("Actual Cars in Lot 2: " + actualCarsInLot2);
+        assertEquals(expectedAverageCarsPerLot, actualCarsInLot1);
+        assertEquals(expectedAverageCarsPerLot, actualCarsInLot2);
     }
 
 }
