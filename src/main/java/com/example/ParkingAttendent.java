@@ -43,7 +43,19 @@ public class ParkingAttendent {
                 return lot.unparkCar(car);
             }
         }
-
         return false;
     }
+
+    public String findCar(String licensePlate) {
+        for (ParkingLot parkingLot : parkingLotList) {
+            for (Car parkedCar : parkingLot.getParkedCars()) {
+                if (parkedCar.getLisenseNum().equals(licensePlate)) {
+                    return parkedCar.getLocation();
+                }
+            }
+        }
+        return null;
+    }
+
+
 }

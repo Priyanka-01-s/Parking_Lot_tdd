@@ -112,7 +112,7 @@ public class ParkingLotTest {
         staff.notifyLotNotFull();
     }
 
-    //Test where to park the car by a attendant
+    // Test where to park the car by a attendant
     @Test
     public void testOwnerDecidesParking() {
         parkingLot1.setOwner(owner);
@@ -124,6 +124,17 @@ public class ParkingLotTest {
         assertTrue(parkingLot1.getParkedCars().contains(car1));
         assertEquals("AB", car1.getLocation());
         assertTrue(owner.setLotFull());
+    }
+
+    //test driver to find the car in parking lot
+    @Test
+    public void testDriverFindsCar() {
+        driver1.addParkingLot(parkingLot1);
+        boolean isParkedCar1 = manager1.parkCarByDriver("Alex", car1);
+        assertTrue(isParkedCar1);
+
+        String foundLocation = driver1.findCar("UP1234");
+        assertEquals("AB", foundLocation);
     }
 
 }
