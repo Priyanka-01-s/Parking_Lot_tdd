@@ -13,11 +13,14 @@ public class ParkingLotOwner {
         this.staffs = new ArrayList<>();
     }
 
-    public boolean isLotFull() {
-        System.out.println("Parking Lot is Full! Put out the Full Sign.");
-        lotFull = true;
-        notifySecurityStaff();
-        return lotFull;
+    public boolean setLotFull() {
+        if (!lotFull) {
+            notifySecurityStaff();
+            return true;
+        }else{
+            notifySpaceAvailable();
+            return false;
+        }
     }
 
     public void addStaff(SecurityStaff securityStaff){
@@ -31,6 +34,12 @@ public class ParkingLotOwner {
     private void notifySecurityStaff() {
         for (SecurityStaff staff : staffs) {
             staff.notifyLotFull();
-        }
+        } 
+    }
+
+    public void notifySpaceAvailable() {
+        System.out.println("Parking Lot has space available. Take in the Full Sign.");
     }
 }
+
+

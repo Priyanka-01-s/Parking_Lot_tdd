@@ -12,8 +12,10 @@ public class ParkingLotTest {
 
     private Car car1;
     private Car car2;
+    private Car car3;
     private ParkingLot parkingLot1;
     private ParkingLot parkingLot2;
+    private ParkingLot parkingLot3;
     private ParkingAttendent driver1;
     private ParkingAttendent driver2;
     private Manager manager1;
@@ -25,8 +27,10 @@ public class ParkingLotTest {
     public void setUpBeforeEach() {
         car1 = new Car("UP1234", "Mahindra", "Black", "SUV");
         car2 = new Car("MP1234", "Toyota", "Blue", "Compact");
+        car3 = new Car("MH0102","White","BMW","Sedan");
         parkingLot1 = new ParkingLot(MAX_CAPACITY, "AB");
         parkingLot2 = new ParkingLot(1, "XY");
+        parkingLot3 = new ParkingLot(3,"CD");
         driver1 = new ParkingAttendent("Alex");
         driver2 = new ParkingAttendent("John");
         manager1 = new Manager();
@@ -76,7 +80,7 @@ public class ParkingLotTest {
         parkingLot2.setOwner(owner); 
 
         assertTrue(parkingLot2.parkCar(car2));
-        assertTrue(owner.isLotFull());
+        assertTrue(owner.setLotFull());
     }
 
     //test to redirect security staff when lot is full
@@ -86,12 +90,29 @@ public class ParkingLotTest {
         parkingLot2.setOwner(owner);
 
         assertTrue(parkingLot2.parkCar(car2));
-        assertTrue(owner.isLotFull());
+        assertTrue(owner.setLotFull());
         
         //notify the airport staff
         staff.notifyLotFull();
 
     }
  
+    //test for notifying when the lot has space again
+    @Test
+    public void testNotifyWhenSpaceAvailable(){
+        assertTrue(parkingLot3.parkCar(car1));
+        assertTrue(parkingLot3.parkCar(car2));
+        assertTrue(parkingLot3.parkCar(car3));
+
+        assertEquals(0, parkingLot3.getAvailableSpaces());
+
+        assertTrue(parkingLot3.unparkCar(car2));
+        assertTrue(parkingLot3.unparkCar(car3));
+
+        assertFalse(parkingLot3.checkLotFull());
+        staff.notifyLotNotFull();
+
+
+    }
 
 }
