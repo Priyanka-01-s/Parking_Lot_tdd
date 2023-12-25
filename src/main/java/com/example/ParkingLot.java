@@ -1,18 +1,21 @@
 package com.example;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ParkingLot {
     private int capacity;
-    private List<Car> parkedCars;
+    private Map<Car, LocalDateTime> parkedCars;;
     private String location;
     private ParkingLotOwner owner;
     private List<SecurityStaff> securityStaffList;
 
     public ParkingLot(int capacity, String location) {
         this.capacity = capacity;
-        this.parkedCars = new ArrayList<>();
+        this.parkedCars = new HashMap<>();
         this.location = location;
         this.owner = null;
         this.securityStaffList = new ArrayList<>();
@@ -32,7 +35,7 @@ public class ParkingLot {
 
     public boolean parkCar(Car car) {
         if (!isFull()) {
-            parkedCars.add(car);
+            parkedCars.put(car, LocalDateTime.now()); // Store the timestamp when the car is parked
             car.location = this.location;
             capacity--;
             checkLotFull();
@@ -42,13 +45,13 @@ public class ParkingLot {
     }
 
     public boolean unparkCar(Car car) {
-        boolean success = parkedCars.remove(car);
-        if (success) {
+        LocalDateTime timestamp = parkedCars.remove(car);
+        if (timestamp != null) {
             car.location = null;
             capacity++;
             checkLotFull();
         }
-        return success;
+        return timestamp != null;
     }
 
     public int getAvailableSpaces() {
@@ -60,7 +63,7 @@ public class ParkingLot {
     }
 
     public List<Car> getParkedCars() {
-        return new ArrayList<>(parkedCars);
+        return new ArrayList<>(parkedCars.keySet());
     }
 
     public String getLocation() {
@@ -74,17 +77,14 @@ public class ParkingLot {
         }
         return false;
     }
-    
-    // public void checkLotNotFull() {
-    //     if (!isFull() && owner != null) {
-    //         owner.notifySpaceAvailable();
-    //         notifySecurityStaffLotNotFull();
-    //     }
-    // }
 
     public void notifySecurityStaffLotNotFull() {
         for (SecurityStaff staff : securityStaffList) {
             staff.notifyLotNotFull();
         }
+    }
+
+    public LocalDateTime getParkingTimestamp(Car car) {
+        return parkedCars.get(car);
     }
 }

@@ -1,5 +1,6 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -135,6 +136,21 @@ public class ParkingLotTest {
 
         String foundLocation = driver1.findCar("UP1234");
         assertEquals("AB", foundLocation);
+    }
+
+    @Test
+    public void testOwnerGetsNotificationWhenCarParked() {
+        parkingLot1.setOwner(owner);
+        driver1.addParkingLot(parkingLot1);
+        boolean isParkedCar1 = manager1.parkCarByDriver("Alex", car1);
+        
+        assertTrue(isParkedCar1);
+        assertEquals(99, parkingLot1.getAvailableSpaces());
+        assertTrue(parkingLot1.getParkedCars().contains(car1));
+        assertEquals("AB", car1.getLocation());
+
+        //owner can retrieve the timestamp for the parked car
+        assertNotNull(parkingLot1.getParkingTimestamp(car1));
     }
 
 }
