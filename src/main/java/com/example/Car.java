@@ -6,12 +6,14 @@ public class Car {
     private String model;
     private String size;
     public String location;
+    private boolean isHandicap; 
 
-    public Car(String lisenseNum, String color, String model, String size){
+    public Car(String lisenseNum, String color, String model, String size, boolean isHandicap){
         this.lisenseNum = lisenseNum;
         this.color = color;
         this.model = model;
         this.size = size;
+        this.isHandicap = isHandicap;
     }
 
     public String getLisenseNum(){
@@ -32,6 +34,14 @@ public class Car {
 
     public String getLocation(){
         return location;
+    }
+
+    public boolean isHandicap() {
+        return isHandicap;
+    }
+
+    public void setHandicap(boolean isHandicap) {
+        this.isHandicap = isHandicap;
     }
 
 }

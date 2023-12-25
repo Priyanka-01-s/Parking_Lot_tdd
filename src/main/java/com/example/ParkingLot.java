@@ -35,7 +35,7 @@ public class ParkingLot {
 
     public boolean parkCar(Car car) {
         if (!isFull()) {
-            parkedCars.put(car, LocalDateTime.now()); // Store the timestamp when the car is parked
+            parkedCars.put(car, LocalDateTime.now()); 
             car.location = this.location;
             capacity--;
             checkLotFull();

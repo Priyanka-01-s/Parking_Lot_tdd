@@ -17,6 +17,7 @@ public class ParkingLotTest {
     private Car car4;
     private Car car5;
     private Car car6;
+    private Car handicapDriverCar;
     private ParkingLot parkingLot1;
     private ParkingLot parkingLot2;
     private ParkingLot parkingLot3;
@@ -29,12 +30,13 @@ public class ParkingLotTest {
 
     @BeforeEach
     public void setUpBeforeEach() {
-        car1 = new Car("UP1234", "Mahindra", "Black", "SUV");
-        car2 = new Car("MP1234", "Toyota", "Blue", "Compact");
-        car3 = new Car("MH0102", "White", "BMW", "Sedan");
-        car4 = new Car("KA5678", "Ford", "Red", "Sedan");
-        car5 = new Car("TN9876", "Honda", "Green", "Compact");
-        car6 = new Car("DL5432", "Chevrolet", "Silver", "SUV");
+        car1 = new Car("UP1234", "Mahindra", "Black", "SUV", false);
+        car2 = new Car("MP1234", "Toyota", "Blue", "Compact",false);
+        car3 = new Car("MH0102", "White", "BMW", "Sedan",false);
+        car4 = new Car("KA5678", "Ford", "Red", "Sedan",false);
+        car5 = new Car("TN9876", "Honda", "Green", "Compact",false);
+        car6 = new Car("DL5432", "Chevrolet", "Silver", "SUV",false);
+        handicapDriverCar = new Car("KA5678", "Ford", "Red", "Sedan", true);
         parkingLot1 = new ParkingLot(MAX_CAPACITY, "AB");
         parkingLot2 = new ParkingLot(1, "XY");
         parkingLot3 = new ParkingLot(3, "CD");
@@ -182,6 +184,24 @@ public class ParkingLotTest {
         System.out.println("Actual Cars in Lot 2: " + actualCarsInLot2);
         assertEquals(expectedAverageCarsPerLot, actualCarsInLot1);
         assertEquals(expectedAverageCarsPerLot, actualCarsInLot2);
+    }
+
+    @Test
+    public void testParkNearestAvailableSpaceForHandicapDriver() {
+        // Set the owner for all parking lots
+        parkingLot1.setOwner(owner);
+
+        // Park multiple cars, including handicap driver's car
+        manager1.parkCarByDriver("Alex", car1);
+        manager1.parkCarByDriver("Alex", car2);
+        manager1.parkCarByDriver("Alex", car3);
+        manager1.parkCarByDriver("Alex", handicapDriverCar);
+
+        // Check the location of the handicap driver's car
+        String expectedLocation = parkingLot1.getLocation(); 
+        String actualLocation = handicapDriverCar.getLocation();
+
+        assertEquals(expectedLocation, actualLocation);
     }
 
 }
