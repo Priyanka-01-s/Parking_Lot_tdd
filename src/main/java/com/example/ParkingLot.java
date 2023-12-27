@@ -1,6 +1,7 @@
 package com.example;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -138,5 +139,16 @@ public class ParkingLot {
         }
         return locations;
     }
+
+    public List<Car> getCarsParkedInLast30Minutes() {
+    List<Car> cars = new ArrayList<>();
+    LocalDateTime currentTime = LocalDateTime.now();
+    for (Map.Entry<Car, LocalDateTime> entry : parkedCars.entrySet()) {
+        if (entry.getValue().isAfter(currentTime.minus(30, ChronoUnit.MINUTES))) {
+            cars.add(entry.getKey());
+        }
+    }
+    return cars;
+}
     
 }

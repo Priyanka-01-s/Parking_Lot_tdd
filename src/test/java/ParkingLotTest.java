@@ -230,4 +230,13 @@ public class ParkingLotTest {
         assertEquals(List.of("AB"), parkingLot1.getLocationsOfParkedBMW());
     }
 
+
+    @Test
+    public void testGetCarsParkedInLast30Minutes() {
+        manager1.parkCarByDriver("Alex", car1);
+        manager2.parkCarByDriver("John", car2);
+    
+        assertEquals(List.of(car1), parkingLot1.getCarsParkedInLast30Minutes());
+        assertEquals(List.of(car2), parkingLot2.getCarsParkedInLast30Minutes());
+    }
 }
