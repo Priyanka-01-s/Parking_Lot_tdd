@@ -12,6 +12,7 @@ public class ParkingLot {
     private Map<Car, LocalDateTime> parkedCars;;
     private String location;
     private ParkingLotOwner owner;
+    private List<ParkingAttendent> parkingAttendants;
     private List<SecurityStaff> securityStaffList;
 
     public ParkingLot(int capacity, String location) {
@@ -20,6 +21,7 @@ public class ParkingLot {
         this.location = location;
         this.owner = null;
         this.securityStaffList = new ArrayList<>();
+        this.parkingAttendants = new ArrayList<>();
     }
 
     public void setOwner(ParkingLotOwner owner) {
@@ -89,10 +91,61 @@ public class ParkingLot {
         return parkedCars.get(car);
     }
 
+    public void addParkingAttendant(ParkingAttendent attendant) {
+        this.parkingAttendants.add(attendant);
+    }
+
+
     public List<String> getLocationsOfAllParkedWhiteCars() {
         return parkedCars.entrySet().stream()
                 .filter(entry -> "White".equalsIgnoreCase(entry.getKey().getColor()))
                 .map(entry -> entry.getKey().getLocation())
                 .collect(Collectors.toList());
     }
+
+    // public List<String> getDetailsOfParkedBlueToyotaCars() {
+    //     return parkedCars.entrySet().stream()
+    //             .filter(entry -> entry.getKey().getColor().equalsIgnoreCase("blue")
+    //                     && entry.getKey().getModel().equalsIgnoreCase("Toyota"))
+    //             .map(entry -> "Plate Number: " + entry.getKey().getLisenseNum() +
+    //                     ", Location: " + entry.getKey().getLocation() +
+    //                     ", Parking Attendant: " + getParkingAttendantName(entry.getKey().getLocation()))
+    //             .collect(Collectors.toList());
+    // }
+
+    // private String getParkingAttendantName(String location) {
+    //     for (ParkingAttendent attendant : parkingAttendants) {
+    //         if (attendant.findCar(location) != null) {
+    //             return attendant.getName();
+    //         }
+    //     }
+    //     return "null";
+    // }
+
+    public List<String> getDetailsOfParkedBlueToyotaCars() {
+        List<String> detailsList = new ArrayList<>();
+        for (Car car : parkedCars.keySet()) {
+            if (car.getColor().equalsIgnoreCase("Blue") && car.getModel().equalsIgnoreCase("Toyota")) {
+                String attendantName = findAttendantNameForCar(car);
+                String details = "Plate Number: " + car.getLisenseNum() +
+                                 ", Location: " + location +
+                                 ", Parking Attendant: " + attendantName;
+                detailsList.add(details);
+            }
+        }
+        return detailsList;
+    }
+    
+    private String findAttendantNameForCar(Car car) {
+        for (ParkingAttendent attendant : parkingAttendants) {
+            List<ParkingLot> attendantLots = attendant.getParkingLotList();
+            for (ParkingLot lot : attendantLots) {
+                if (lot.getLocation().equals(car.getLocation())) {
+                    return attendant.getName();
+                }
+            }
+        }
+        return null;
+    }
+    
 }

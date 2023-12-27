@@ -57,5 +57,8 @@ public class ParkingAttendent {
         return null;
     }
 
+    public List<ParkingLot> getParkingLotList() {
+        return parkingLotList;
+    }
 
 }

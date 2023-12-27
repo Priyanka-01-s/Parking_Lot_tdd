@@ -212,4 +212,17 @@ public class ParkingLotTest {
         assertTrue(locationsOfWhiteCars.contains("AB"));
     }
 
+    @Test
+    public void testGetDetailsOfParkedBlueToyotaCars() {
+        manager1.parkCarByDriver("Alex", car6);
+
+        // Assuming you have added the attendants to the parking lot
+        parkingLot1.addParkingAttendant(driver1);
+
+        List<String> details = parkingLot1.getDetailsOfParkedBlueToyotaCars();
+        assertEquals(1, details.size());
+        assertEquals("Plate Number: DL5432, Location: AB, Parking Attendant: Alex", details.get(0));
+    }
+
+
 }
