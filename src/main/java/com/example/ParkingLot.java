@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ParkingLot {
     private int capacity;
@@ -86,5 +87,12 @@ public class ParkingLot {
 
     public LocalDateTime getParkingTimestamp(Car car) {
         return parkedCars.get(car);
+    }
+
+    public List<String> getLocationsOfAllParkedWhiteCars() {
+        return parkedCars.entrySet().stream()
+                .filter(entry -> "White".equalsIgnoreCase(entry.getKey().getColor()))
+                .map(entry -> entry.getKey().getLocation())
+                .collect(Collectors.toList());
     }
 }

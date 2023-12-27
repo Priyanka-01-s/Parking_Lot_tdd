@@ -8,7 +8,7 @@ public class Car {
     public String location;
     private boolean isHandicap; 
 
-    public Car(String lisenseNum, String color, String model, String size, boolean isHandicap){
+    public Car(String lisenseNum, String model,String color, String size, boolean isHandicap){
         this.lisenseNum = lisenseNum;
         this.color = color;
         this.model = model;

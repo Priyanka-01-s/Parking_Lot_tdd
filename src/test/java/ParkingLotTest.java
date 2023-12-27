@@ -2,6 +2,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +13,6 @@ import com.example.*;
 public class ParkingLotTest {
 
     private static int MAX_CAPACITY = 100;
-
     private Car car1;
     private Car car2;
     private Car car3;
@@ -32,10 +34,10 @@ public class ParkingLotTest {
     public void setUpBeforeEach() {
         car1 = new Car("UP1234", "Mahindra", "Black", "SUV", false);
         car2 = new Car("MP1234", "Toyota", "Blue", "Compact",false);
-        car3 = new Car("MH0102", "White", "BMW", "Sedan",false);
+        car3 = new Car("MH0102", "BWM", "White", "Sedan",false);
         car4 = new Car("KA5678", "Ford", "Red", "Sedan",false);
         car5 = new Car("TN9876", "Honda", "Green", "Compact",false);
-        car6 = new Car("DL5432", "Chevrolet", "Silver", "SUV",false);
+        car6 = new Car("DL5432", "Toyota", "Blue", "SUV",false);
         handicapDriverCar = new Car("KA5678", "Ford", "Red", "Sedan", true);
         parkingLot1 = new ParkingLot(MAX_CAPACITY, "AB");
         parkingLot2 = new ParkingLot(1, "XY");
@@ -190,18 +192,24 @@ public class ParkingLotTest {
     public void testParkNearestAvailableSpaceForHandicapDriver() {
         // Set the owner for all parking lots
         parkingLot1.setOwner(owner);
-
-        // Park multiple cars, including handicap driver's car
         manager1.parkCarByDriver("Alex", car1);
         manager1.parkCarByDriver("Alex", car2);
         manager1.parkCarByDriver("Alex", car3);
         manager1.parkCarByDriver("Alex", handicapDriverCar);
-
-        // Check the location of the handicap driver's car
+        
         String expectedLocation = parkingLot1.getLocation(); 
         String actualLocation = handicapDriverCar.getLocation();
 
         assertEquals(expectedLocation, actualLocation);
+    }
+
+    @Test
+    public void testPoliceDepartmentInvestigation() {
+        parkingLot1.setOwner(owner);
+        manager1.parkCarByDriver("Alex", car3);
+
+        List<String> locationsOfWhiteCars = parkingLot1.getLocationsOfAllParkedWhiteCars();
+        assertTrue(locationsOfWhiteCars.contains("AB"));
     }
 
 }
