@@ -36,7 +36,7 @@ public class ParkingLotTest {
         car2 = new Car("MP1234", "Toyota", "Blue", "Compact",false);
         car3 = new Car("MH0102", "BWM", "White", "Sedan",false);
         car4 = new Car("KA5678", "Ford", "Red", "Sedan",false);
-        car5 = new Car("TN9876", "Honda", "Green", "Compact",false);
+        car5 = new Car("TN9876", "BMW", "Green", "Compact",false);
         car6 = new Car("DL5432", "Toyota", "Blue", "SUV",false);
         handicapDriverCar = new Car("KA5678", "Ford", "Red", "Sedan", true);
         parkingLot1 = new ParkingLot(MAX_CAPACITY, "AB");
@@ -215,8 +215,6 @@ public class ParkingLotTest {
     @Test
     public void testGetDetailsOfParkedBlueToyotaCars() {
         manager1.parkCarByDriver("Alex", car6);
-
-        // Assuming you have added the attendants to the parking lot
         parkingLot1.addParkingAttendant(driver1);
 
         List<String> details = parkingLot1.getDetailsOfParkedBlueToyotaCars();
@@ -224,5 +222,12 @@ public class ParkingLotTest {
         assertEquals("Plate Number: DL5432, Location: AB, Parking Attendant: Alex", details.get(0));
     }
 
+    @Test
+    public void testGetLocationsOfParkedBMW() {
+        manager1.parkCarByDriver("Alex", car3);
+        manager1.parkCarByDriver("Alex",car5);
+
+        assertEquals(List.of("AB"), parkingLot1.getLocationsOfParkedBMW());
+    }
 
 }

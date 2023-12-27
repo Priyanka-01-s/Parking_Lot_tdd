@@ -103,25 +103,6 @@ public class ParkingLot {
                 .collect(Collectors.toList());
     }
 
-    // public List<String> getDetailsOfParkedBlueToyotaCars() {
-    //     return parkedCars.entrySet().stream()
-    //             .filter(entry -> entry.getKey().getColor().equalsIgnoreCase("blue")
-    //                     && entry.getKey().getModel().equalsIgnoreCase("Toyota"))
-    //             .map(entry -> "Plate Number: " + entry.getKey().getLisenseNum() +
-    //                     ", Location: " + entry.getKey().getLocation() +
-    //                     ", Parking Attendant: " + getParkingAttendantName(entry.getKey().getLocation()))
-    //             .collect(Collectors.toList());
-    // }
-
-    // private String getParkingAttendantName(String location) {
-    //     for (ParkingAttendent attendant : parkingAttendants) {
-    //         if (attendant.findCar(location) != null) {
-    //             return attendant.getName();
-    //         }
-    //     }
-    //     return "null";
-    // }
-
     public List<String> getDetailsOfParkedBlueToyotaCars() {
         List<String> detailsList = new ArrayList<>();
         for (Car car : parkedCars.keySet()) {
@@ -146,6 +127,16 @@ public class ParkingLot {
             }
         }
         return null;
+    }
+
+    public List<String> getLocationsOfParkedBMW() {
+        List<String> locations = new ArrayList<>();
+        for (Car car : parkedCars.keySet()) {
+            if (car.getModel().equalsIgnoreCase("BMW")) {
+                locations.add(location);
+            }
+        }
+        return locations;
     }
     
 }
