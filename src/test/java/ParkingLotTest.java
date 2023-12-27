@@ -239,4 +239,27 @@ public class ParkingLotTest {
         assertEquals(List.of(car1), parkingLot1.getCarsParkedInLast30Minutes());
         assertEquals(List.of(car2), parkingLot2.getCarsParkedInLast30Minutes());
     }
+
+    @Test
+    public void testGetAllParkedCars() {
+        manager1.parkCarByDriver("Alex", car1);
+        manager1.parkCarByDriver("Alex", car2);
+        manager1.parkCarByDriver("Alex", car3);
+        manager2.parkCarByDriver("John", car4);
+        manager2.parkCarByDriver("John", car5);
+        manager2.parkCarByDriver("John", car6);
+    
+        //ParkingLot1
+        List<Car> allParkedCars1 = parkingLot1.getAllParkedCars();
+        assertEquals(3, allParkedCars1.size());
+        assertTrue(allParkedCars1.contains(car1));
+        assertTrue(allParkedCars1.contains(car2));
+        assertTrue(allParkedCars1.contains(car3));
+
+        //ParkingLot2
+        List<Car> allParkedCars2 = parkingLot2.getAllParkedCars();
+        assertEquals(3, allParkedCars2.size());
+        assertTrue(allParkedCars2.contains(car4));
+    }
+    
 }

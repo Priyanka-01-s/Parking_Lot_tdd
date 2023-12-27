@@ -39,7 +39,7 @@ public class ParkingLot {
 
     public boolean parkCar(Car car) {
         if (!isFull()) {
-            parkedCars.put(car, LocalDateTime.now()); 
+            parkedCars.put(car, LocalDateTime.now());
             car.location = this.location;
             capacity--;
             checkLotFull();
@@ -96,7 +96,6 @@ public class ParkingLot {
         this.parkingAttendants.add(attendant);
     }
 
-
     public List<String> getLocationsOfAllParkedWhiteCars() {
         return parkedCars.entrySet().stream()
                 .filter(entry -> "White".equalsIgnoreCase(entry.getKey().getColor()))
@@ -110,14 +109,14 @@ public class ParkingLot {
             if (car.getColor().equalsIgnoreCase("Blue") && car.getModel().equalsIgnoreCase("Toyota")) {
                 String attendantName = findAttendantNameForCar(car);
                 String details = "Plate Number: " + car.getLisenseNum() +
-                                 ", Location: " + location +
-                                 ", Parking Attendant: " + attendantName;
+                        ", Location: " + location +
+                        ", Parking Attendant: " + attendantName;
                 detailsList.add(details);
             }
         }
         return detailsList;
     }
-    
+
     private String findAttendantNameForCar(Car car) {
         for (ParkingAttendent attendant : parkingAttendants) {
             List<ParkingLot> attendantLots = attendant.getParkingLotList();
@@ -141,14 +140,18 @@ public class ParkingLot {
     }
 
     public List<Car> getCarsParkedInLast30Minutes() {
-    List<Car> cars = new ArrayList<>();
-    LocalDateTime currentTime = LocalDateTime.now();
-    for (Map.Entry<Car, LocalDateTime> entry : parkedCars.entrySet()) {
-        if (entry.getValue().isAfter(currentTime.minus(30, ChronoUnit.MINUTES))) {
-            cars.add(entry.getKey());
+        List<Car> cars = new ArrayList<>();
+        LocalDateTime currentTime = LocalDateTime.now();
+        for (Map.Entry<Car, LocalDateTime> entry : parkedCars.entrySet()) {
+            if (entry.getValue().isAfter(currentTime.minus(30, ChronoUnit.MINUTES))) {
+                cars.add(entry.getKey());
+            }
         }
+        return cars;
     }
-    return cars;
-}
-    
+
+    public List<Car> getAllParkedCars() {
+        return new ArrayList<>(parkedCars.keySet());
+    }
+
 }
